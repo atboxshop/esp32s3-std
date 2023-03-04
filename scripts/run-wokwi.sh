@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
 set -e
-
 BUILD_MODE=""
 case "$1" in
     ""|"release")
