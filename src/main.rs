@@ -24,7 +24,7 @@ fn main() -> ! {
     loop {
         ws2812.write(brightness(gamma(data.iter().cloned()), bright))
                 .unwrap();
-        sleep(Duration::from_millis(100));
+        sleep(Duration::from_millis(500));
        
         red = unsafe{esp_random()} as u8;
         println!("{}",red);
