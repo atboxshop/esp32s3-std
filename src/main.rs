@@ -1,5 +1,6 @@
 use esp_idf_sys as _; // If using the `binstart` feature of `esp-idf-sys`, always keep this module imported
-use esp_idf_hal::delay::FreeRtos;
+use std::thread::sleep;
+use std::time::Duration;
 use esp_idf_hal::prelude::*;
 use esp_idf_hal::adc::*;
 use esp_idf_hal::gpio::*;
@@ -21,12 +22,12 @@ fn main()
         LedcTimerDriver::new(peripherals.ledc.timer0,
             &freq_conf).unwrap(),peripherals.pins.gpio12,).unwrap(); 
     loop {
-        FreeRtos::delay_ms(20);
+        sleep(Duration::from_millis(20));
         let value1 = adc.read(&mut adc_pin).unwrap();
         let value2:f32 = value1.into(); //convert u16 to f32
         let value3:f32 = value2*(255.0/3054.0);//max value of pwn divided by max value of adc
         let value4:u32 = value3.round() as u32;
-        println!("ADC value: {}", value2/1000.00);
+        println!("ADC value: {} vols", value2/1000.00);
         println!("{}",value4);
         led.set_duty(value4).unwrap();
    }
