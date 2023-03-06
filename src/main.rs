@@ -17,7 +17,7 @@ fn main()
     let mut adc = AdcDriver::new(peripherals.adc2, &Config::new().calibration(true)).unwrap();
     let mut adc_pin: esp_idf_hal::adc::AdcChannelDriver<'_, Gpio13, Atten11dB<_>> =
         AdcChannelDriver::new(peripherals.pins.gpio13).unwrap();       
-    let freq_conf = TimerConfig::new().frequency(25.kHz().into());
+    let freq_conf = TimerConfig::new().frequency(120.Hz().into());
     let mut led = LedcDriver::new(peripherals.ledc.channel0,
         LedcTimerDriver::new(peripherals.ledc.timer0,
             &freq_conf).unwrap(),peripherals.pins.gpio12,).unwrap(); 
