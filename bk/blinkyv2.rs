@@ -1,8 +1,6 @@
 use esp_idf_sys as _; // If using the `binstart` feature of `esp-idf-sys`, always keep this module imported
 use esp_idf_hal::delay::FreeRtos;
 use esp_idf_hal::gpio::*;
-//use esp_idf_hal::adc::config::Config;
-//use esp_idf_hal::adc::*;
 use esp_idf_hal::peripherals::Peripherals;
 
 fn main()
