@@ -27,16 +27,12 @@ fn main() -> ! {
         sleep(Duration::from_millis(300));
        
         red = unsafe{esp_random()} as u8;
-        println!("{}",red);
+        println!("red {}",red);
         green = unsafe{esp_random()} as u8;
-        println!("{}",green);
+        println!("green {}",green);
         blue = unsafe{esp_random()} as u8;
-        println!("{}",blue);
+        println!("blue {}",blue);
         color = RGB8{r:red,g:green,b:blue};
         data = [color; NUM_PIXELS];
-        /*ws2812.write(brightness(gamma(data.iter().cloned()), bright))
-                .unwrap();
-
-        sleep(Duration::from_millis(200));*/
     }
 }
