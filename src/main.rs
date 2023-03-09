@@ -1,38 +1,25 @@
 use esp_idf_sys as _; // If using the `binstart` feature of `esp-idf-sys`, always keep this module imported
-use esp_idf_sys::esp_random;
-use smart_leds::{
-    brightness,
-    gamma,
-    SmartLedsWrite,
-};
 use std::thread::sleep;
 use std::time::Duration;
-use ws2812_esp32_rmt_driver::driver::color::LedPixelColorGrbw32;
-use ws2812_esp32_rmt_driver::{LedPixelEsp32Rmt, RGB8};
+use esp_idf_hal::adc::*;
+use esp_idf_hal::gpio::*;
+use esp_idf_hal::adc::config::Config;
+use esp_idf_hal::peripherals::Peripherals;
 
-const LED_PIN: u32 = 48;
-const NUM_PIXELS:usize = 1;
 
-fn main() -> ! {
-    let mut ws2812 = LedPixelEsp32Rmt::<RGB8, LedPixelColorGrbw32>::new(0, LED_PIN).unwrap();
-    let mut red = unsafe{esp_random()} as u8;
-    let mut green = unsafe{esp_random()} as u8;
-    let mut blue = unsafe{esp_random()} as u8;
-    let mut color = RGB8{r:red,g:green,b:blue};
-    let bright = 5u8;
-    let mut data: [RGB8; NUM_PIXELS] = [color; NUM_PIXELS];
+
+fn main()
+{
+    let peripherals = Peripherals::take().unwrap();
+
+    let mut adc = AdcDriver::new(peripherals.adc2, &Config::new().calibration(true)).unwrap();
+    let mut adc_pin: esp_idf_hal::adc::AdcChannelDriver<'_, Gpio13, Atten11dB<_>> =
+        AdcChannelDriver::new(peripherals.pins.gpio13).unwrap();       
+
     loop {
-        ws2812.write(brightness(gamma(data.iter().cloned()), bright))
-                .unwrap();
-        sleep(Duration::from_millis(300));
-       
-        red = unsafe{esp_random()} as u8;
-        println!("red {}",red);
-        green = unsafe{esp_random()} as u8;
-        println!("green {}",green);
-        blue = unsafe{esp_random()} as u8;
-        println!("blue {}",blue);
-        color = RGB8{r:red,g:green,b:blue};
-        data = [color; NUM_PIXELS];
-    }
+        sleep(Duration::from_millis(20));
+        let value1 = adc.read(&mut adc_pin).unwrap();
+        let value2:f32 = value1.into();
+        println!("ADC value: {} vols", value2/1000.00);
+   }
 }
