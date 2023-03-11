@@ -4,8 +4,6 @@ use std::time::Duration;
 use esp_idf_hal::gpio::*;
 use esp_idf_hal::peripherals::Peripherals;
 
-
-
 fn main()
 {
     let peripherals = Peripherals::take().unwrap();
