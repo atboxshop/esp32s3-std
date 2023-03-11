@@ -15,6 +15,6 @@ fn main()
         FreeRtos::delay_ms(500);
         led.set_low().unwrap();
         FreeRtos::delay_ms(500);
-        println!("Hello World! 123");
+        println!("Hello World!");
    }
 }
