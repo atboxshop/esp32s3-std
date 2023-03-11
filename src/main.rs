@@ -34,9 +34,5 @@ fn main() -> ! {
         println!("{}",blue);
         color = RGB8{r:red,g:green,b:blue};
         data = [color; NUM_PIXELS];
-        /*ws2812.write(brightness(gamma(data.iter().cloned()), bright))
-                .unwrap();
-
-        sleep(Duration::from_millis(200));*/
     }
 }
